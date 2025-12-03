@@ -8,11 +8,17 @@ ifndef CFLAGS
 	endif
 endif
 
-.PHONY: all clean
+# List of source files
+SRC_FILES = usb-proxy.cpp host-raw-gadget.cpp device-libusb.cpp proxy.cpp misc.cpp letter_mapping.cpp
 
-usb-proxy: usb-proxy.o host-raw-gadget.o device-libusb.o proxy.o misc.o
-	g++ usb-proxy.o host-raw-gadget.o device-libusb.o proxy.o misc.o $(LDFLAG) -o usb-proxy
+# Corresponding object files
+OBJ_FILES = $(SRC_FILES:.cpp=.o)
 
+# Main target
+usb-proxy: $(OBJ_FILES)
+	g++ $(OBJ_FILES) $(LDFLAG) -o usb-proxy
+
+# Pattern rule to compile source files to object files
 %.o: %.cpp %.h
 	g++ $(CFLAGS) -c $<
 

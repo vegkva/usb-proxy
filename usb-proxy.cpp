@@ -2,12 +2,15 @@
 #include "device-libusb.h"
 #include "proxy.h"
 #include "misc.h"
+#include "thread"
+
 
 int verbose_level = 0;
 bool please_stop_ep0 = false;
-volatile bool please_stop_eps = false; // Use volatile to mark as atomic.
+bool please_stop_eps = false;
 
 bool injection_enabled = false;
+bool commandInjection_enabled = false;
 std::string injection_file = "injection.json";
 Json::Value injection_config;
 
@@ -27,6 +30,7 @@ void usage() {
 	printf("\t--enable_injection: enable the injection feature\n");
 	printf("\t--injection_file: specify the file that contains injection rules\n");
 	printf("\t--enable_customized_config: enable the customized config feature\n\n");
+	printf("\t--command_injection: enable command injection\n\n");
 	printf("* If `device` not specified, `usb-proxy` will use `dummy_udc.0` as default device.\n");
 	printf("* If `driver` not specified, `usb-proxy` will use `dummy_udc` as default driver.\n");
 	printf("* If both `vendor_id` and `product_id` not specified, `usb-proxy` will connect\n");
@@ -116,7 +120,6 @@ int setup_host_usb_desc() {
 					printf("InterfaceNumber %x AlternateSetting %x has no endpoint, skip\n",
 						temp_device_altsetting.bInterfaceNumber,
 						temp_device_altsetting.bAlternateSetting);
-					temp_altsettings[k].endpoints = NULL;
 					continue;
 				}
 
@@ -181,6 +184,7 @@ int main(int argc, char **argv)
 		{"enable_injection", no_argument, &lopt, 7},
 		{"injection_file", required_argument, &lopt, 8},
 		{"enable_customized_config", no_argument, &lopt, 9},
+		{"command_injection", no_argument, &lopt, 10},
 		{0, 0, 0, 0}
 	};
 	while ((opt = getopt_long(argc, argv, optstring, long_options, &loidx)) != -1) {
@@ -220,7 +224,10 @@ int main(int argc, char **argv)
 		case 9:
 			customized_config_enabled = true;
 			break;
-
+		case 10:
+			commandInjection_enabled = true;
+			printf("command injection enabled\n");
+			break;
 		default:
 			usage();
 			return 1;
@@ -231,6 +238,8 @@ int main(int argc, char **argv)
 	printf("vendor_id is: %d\n", vendor_id);
 	printf("product_id is: %d\n", product_id);
 
+	std::thread userInputThread(handleUserInput);
+	//std::thread autoLoginThread(handleAutoLogin);
 	if (injection_enabled) {
 		printf("Injection enabled\n");
 		if (injection_file.empty()) {
@@ -296,6 +305,16 @@ int main(int argc, char **argv)
 
 	ep0_loop(fd);
 
+	
+
+	
+
+	// Join the thread before exiting the program
+	if (commandInjection_enabled) {
+	   	userInputThread.join();
+    }
+	//autoLoginThread.join();
+
 	close(fd);
 
 	int bNumConfigurations = device_device_desc.bNumConfigurations;
@@ -304,9 +323,7 @@ int main(int argc, char **argv)
 		for (int j = 0; j < bNumInterfaces; j++) {
 			int num_altsetting = device_config_desc[i]->interface[j].num_altsetting;
 			for (int k = 0; k < num_altsetting; k++) {
-				if (host_device_desc.configs[i].interfaces[j].altsettings[k].endpoints) {
-					delete[] host_device_desc.configs[i].interfaces[j].altsettings[k].endpoints;
-				}
+				delete[] host_device_desc.configs[i].interfaces[j].altsettings[k].endpoints;
 			}
 			delete[] host_device_desc.configs[i].interfaces[j].altsettings;
 		}
