@@ -1,121 +1,121 @@
 #include "letter_mapping.h"
-#include <sstream> // Include for std::istringstream
 #include <iomanip> // Include for std::hex
 #include <iostream>
+#include <sstream> // Include for std::istringstream
 
 bool commandInList;
 
- // Mapping of byte patterns to letters
-    std::map<std::string, std::string> byteToLetter = {
-	{"00 00 04 00 00 00 00 00", "a"},
-	{"02 00 04 00 00 00 00 00", "A"},
-	{"00 00 05 00 00 00 00 00", "b"},
-	{"02 00 05 00 00 00 00 00", "B"},
-	{"00 00 06 00 00 00 00 00", "c"},
-	{"02 00 06 00 00 00 00 00", "C"},
-	{"00 00 07 00 00 00 00 00", "d"},
-	{"02 00 07 00 00 00 00 00", "D"},
-	{"00 00 08 00 00 00 00 00", "e"},
-	{"02 00 08 00 00 00 00 00", "E"},
-	{"00 00 09 00 00 00 00 00", "f"},
-	{"02 00 09 00 00 00 00 00", "F"},
-	{"00 00 0a 00 00 00 00 00", "g"},
-	{"02 00 0a 00 00 00 00 00", "G"},
-	{"00 00 0b 00 00 00 00 00", "h"},
-	{"02 00 0b 00 00 00 00 00", "H"},
-	{"00 00 0c 00 00 00 00 00", "i"},
-	{"02 00 0c 00 00 00 00 00", "I"},
-	{"00 00 0d 00 00 00 00 00", "j"},
-	{"02 00 0d 00 00 00 00 00", "J"},
-	{"00 00 0e 00 00 00 00 00", "k"},
-	{"02 00 0e 00 00 00 00 00", "K"},
-	{"00 00 0f 00 00 00 00 00", "l"},
-	{"02 00 0f 00 00 00 00 00", "L"},
-	{"00 00 10 00 00 00 00 00", "m"},
-	{"02 00 10 00 00 00 00 00", "M"},
-	{"00 00 11 00 00 00 00 00", "n"},
-	{"02 00 11 00 00 00 00 00", "N"},
-	{"00 00 12 00 00 00 00 00", "o"},
-	{"02 00 12 00 00 00 00 00", "O"},
-	{"00 00 13 00 00 00 00 00", "p"},
-	{"02 00 13 00 00 00 00 00", "P"},
-	{"00 00 14 00 00 00 00 00", "q"},
-	{"02 00 14 00 00 00 00 00", "Q"},
-	{"00 00 15 00 00 00 00 00", "r"},
-	{"02 00 15 00 00 00 00 00", "R"},
-	{"00 00 16 00 00 00 00 00", "s"},
-	{"02 00 16 00 00 00 00 00", "S"},
-	{"00 00 17 00 00 00 00 00", "t"},
-	{"02 00 17 00 00 00 00 00", "T"},
-	{"00 00 18 00 00 00 00 00", "u"},
-	{"02 00 18 00 00 00 00 00", "U"},
-	{"00 00 19 00 00 00 00 00", "v"},
-	{"02 00 19 00 00 00 00 00", "V"},
-	{"00 00 1a 00 00 00 00 00", "w"},
-	{"02 00 1a 00 00 00 00 00", "W"},
-	{"00 00 1b 00 00 00 00 00", "x"},
-	{"02 00 1b 00 00 00 00 00", "X"},
-	{"00 00 1c 00 00 00 00 00", "y"},
-	{"02 00 1c 00 00 00 00 00", "Y"},
-	{"00 00 1d 00 00 00 00 00", "z"},
-	{"02 00 1d 00 00 00 00 00", "Z"},
+// Mapping of byte patterns to letters
+std::map<std::string, std::string> byteToLetter = {
+    {"00 00 04 00 00 00 00 00", "a"},
+    {"02 00 04 00 00 00 00 00", "A"},
+    {"00 00 05 00 00 00 00 00", "b"},
+    {"02 00 05 00 00 00 00 00", "B"},
+    {"00 00 06 00 00 00 00 00", "c"},
+    {"02 00 06 00 00 00 00 00", "C"},
+    {"00 00 07 00 00 00 00 00", "d"},
+    {"02 00 07 00 00 00 00 00", "D"},
+    {"00 00 08 00 00 00 00 00", "e"},
+    {"02 00 08 00 00 00 00 00", "E"},
+    {"00 00 09 00 00 00 00 00", "f"},
+    {"02 00 09 00 00 00 00 00", "F"},
+    {"00 00 0a 00 00 00 00 00", "g"},
+    {"02 00 0a 00 00 00 00 00", "G"},
+    {"00 00 0b 00 00 00 00 00", "h"},
+    {"02 00 0b 00 00 00 00 00", "H"},
+    {"00 00 0c 00 00 00 00 00", "i"},
+    {"02 00 0c 00 00 00 00 00", "I"},
+    {"00 00 0d 00 00 00 00 00", "j"},
+    {"02 00 0d 00 00 00 00 00", "J"},
+    {"00 00 0e 00 00 00 00 00", "k"},
+    {"02 00 0e 00 00 00 00 00", "K"},
+    {"00 00 0f 00 00 00 00 00", "l"},
+    {"02 00 0f 00 00 00 00 00", "L"},
+    {"00 00 10 00 00 00 00 00", "m"},
+    {"02 00 10 00 00 00 00 00", "M"},
+    {"00 00 11 00 00 00 00 00", "n"},
+    {"02 00 11 00 00 00 00 00", "N"},
+    {"00 00 12 00 00 00 00 00", "o"},
+    {"02 00 12 00 00 00 00 00", "O"},
+    {"00 00 13 00 00 00 00 00", "p"},
+    {"02 00 13 00 00 00 00 00", "P"},
+    {"00 00 14 00 00 00 00 00", "q"},
+    {"02 00 14 00 00 00 00 00", "Q"},
+    {"00 00 15 00 00 00 00 00", "r"},
+    {"02 00 15 00 00 00 00 00", "R"},
+    {"00 00 16 00 00 00 00 00", "s"},
+    {"02 00 16 00 00 00 00 00", "S"},
+    {"00 00 17 00 00 00 00 00", "t"},
+    {"02 00 17 00 00 00 00 00", "T"},
+    {"00 00 18 00 00 00 00 00", "u"},
+    {"02 00 18 00 00 00 00 00", "U"},
+    {"00 00 19 00 00 00 00 00", "v"},
+    {"02 00 19 00 00 00 00 00", "V"},
+    {"00 00 1a 00 00 00 00 00", "w"},
+    {"02 00 1a 00 00 00 00 00", "W"},
+    {"00 00 1b 00 00 00 00 00", "x"},
+    {"02 00 1b 00 00 00 00 00", "X"},
+    {"00 00 1c 00 00 00 00 00", "y"},
+    {"02 00 1c 00 00 00 00 00", "Y"},
+    {"00 00 1d 00 00 00 00 00", "z"},
+    {"02 00 1d 00 00 00 00 00", "Z"},
     {"00 00 2c 00 00 00 00 00", " "},
-	{"00 00 36 00 00 00 00 00", ","},
-	{"00 00 37 00 00 00 00 00", "."},
-	{"00 00 28 00 00 00 00 00", "\n"},
-	{"00 00 34 00 00 00 00 00", "æ"},
-	{"00 00 33 00 00 00 00 00", "ø"},
-	{"00 00 2f 00 00 00 00 00", "å"},
-	{"02 00 2f 00 00 00 00 00", "Å"},
-	{"00 00 1e 00 00 00 00 00", "1"},
-	{"00 00 1f 00 00 00 00 00", "2"},
-	{"00 00 20 00 00 00 00 00", "3"},
-	{"00 00 21 00 00 00 00 00", "4"},
-	{"00 00 22 00 00 00 00 00", "5"},
-	{"00 00 23 00 00 00 00 00", "6"},
-	{"00 00 24 00 00 00 00 00", "7"},
-	{"00 00 25 00 00 00 00 00", "8"},
-	{"00 00 26 00 00 00 00 00", "9"},
-	{"00 00 27 00 00 00 00 00", "0"},
-	{"00 00 2d 00 00 00 00 00", "+"},
-	{"00 00 2e 00 00 00 00 00", "\\"},
-	{"00 00 35 00 00 00 00 00", "|"},
-	{"00 00 64 00 00 00 00 00", "<"},
-	{"02 00 64 00 00 00 00 00", ">"},
-	{"02 00 35 00 00 00 00 00", "§"},
-	{"02 00 1e 00 00 00 00 00", "!"},
-	{"02 00 1f 00 00 00 00 00", "\""},
-	{"02 00 20 00 00 00 00 00", "#"},
-	{"02 00 21 00 00 00 00 00", "¤"},
-	{"02 00 22 00 00 00 00 00", "%"},
-	{"02 00 23 00 00 00 00 00", "&"},
-	{"02 00 24 00 00 00 00 00", "/"},
-	{"02 00 25 00 00 00 00 00", "("},
-	{"02 00 26 00 00 00 00 00", ")"},
-	{"02 00 27 00 00 00 00 00", "="},
-	{"02 00 2d 00 00 00 00 00", "?"},
-	{"02 00 2e 00 00 00 00 00", "`"},
-	{"00 00 30 00 00 00 00 00", "¨"},
-	{"00 00 32 00 00 00 00 00", "'"},
-	{"00 00 38 00 00 00 00 00", "-"},
-	{"02 00 30 00 00 00 00 00", "^"},
-	{"40 00 30 00 00 00 00 00", "~"},
-	{"02 00 32 00 00 00 00 00", "*"},
-	{"02 00 38 00 00 00 00 00", "_"},
-	{"02 00 37 00 00 00 00 00", ":"},
-	{"02 00 36 00 00 00 00 00", ";"},
-	{"08 00 00 00 00 00 00 00", "[windows]"},
+    {"00 00 36 00 00 00 00 00", ","},
+    {"00 00 37 00 00 00 00 00", "."},
+    {"00 00 28 00 00 00 00 00", "[ENTER]"},
+    {"00 00 34 00 00 00 00 00", "æ"},
+    {"00 00 33 00 00 00 00 00", "ø"},
+    {"00 00 2f 00 00 00 00 00", "å"},
+    {"02 00 2f 00 00 00 00 00", "Å"},
+    {"00 00 1e 00 00 00 00 00", "1"},
+    {"00 00 1f 00 00 00 00 00", "2"},
+    {"00 00 20 00 00 00 00 00", "3"},
+    {"00 00 21 00 00 00 00 00", "4"},
+    {"00 00 22 00 00 00 00 00", "5"},
+    {"00 00 23 00 00 00 00 00", "6"},
+    {"00 00 24 00 00 00 00 00", "7"},
+    {"00 00 25 00 00 00 00 00", "8"},
+    {"00 00 26 00 00 00 00 00", "9"},
+    {"00 00 27 00 00 00 00 00", "0"},
+    {"00 00 2d 00 00 00 00 00", "+"},
+    {"00 00 2e 00 00 00 00 00", "\\"},
+    {"00 00 35 00 00 00 00 00", "|"},
+    {"00 00 64 00 00 00 00 00", "<"},
+    {"02 00 64 00 00 00 00 00", ">"},
+    {"02 00 35 00 00 00 00 00", "§"},
+    {"02 00 1e 00 00 00 00 00", "!"},
+    {"02 00 1f 00 00 00 00 00", "\""},
+    {"02 00 20 00 00 00 00 00", "#"},
+    {"02 00 21 00 00 00 00 00", "¤"},
+    {"02 00 22 00 00 00 00 00", "%"},
+    {"02 00 23 00 00 00 00 00", "&"},
+    {"02 00 24 00 00 00 00 00", "/"},
+    {"02 00 25 00 00 00 00 00", "("},
+    {"02 00 26 00 00 00 00 00", ")"},
+    {"02 00 27 00 00 00 00 00", "="},
+    {"02 00 2d 00 00 00 00 00", "?"},
+    {"02 00 2e 00 00 00 00 00", "`"},
+    {"00 00 30 00 00 00 00 00", "¨"},
+    {"00 00 32 00 00 00 00 00", "'"},
+    {"00 00 38 00 00 00 00 00", "-"},
+    {"02 00 30 00 00 00 00 00", "^"},
+    {"40 00 30 00 00 00 00 00", "~"},
+    {"02 00 32 00 00 00 00 00", "*"},
+    {"02 00 38 00 00 00 00 00", "_"},
+    {"02 00 37 00 00 00 00 00", ":"},
+    {"02 00 36 00 00 00 00 00", ";"},
+    {"08 00 00 00 00 00 00 00", "[windows]"},
     {"08 00 0f 00 00 00 00 00", "[lock]"},
-	{"00 00 29 00 00 00 00 00", "[esc]"},
-	{"40 00 1f 00 00 00 00 00", "@"},
-	{"40 00 20 00 00 00 00 00", "£"},
-	{"40 00 21 00 00 00 00 00", "$"},
-	{"40 00 24 00 00 00 00 00", "{"},
-	{"40 00 25 00 00 00 00 00", "["},
-	{"40 00 26 00 00 00 00 00", "]"},
-	{"40 00 27 00 00 00 00 00", "}"},
-	{"40 00 2e 00 00 00 00 00", "´"}
-};
+    {"00 00 29 00 00 00 00 00", "[esc]"},
+    {"40 00 1f 00 00 00 00 00", "@"},
+    {"40 00 20 00 00 00 00 00", "£"},
+    {"40 00 21 00 00 00 00 00", "$"},
+    {"40 00 24 00 00 00 00 00", "{"},
+    {"40 00 25 00 00 00 00 00", "["},
+    {"40 00 26 00 00 00 00 00", "]"},
+    {"40 00 27 00 00 00 00 00", "}"},
+    {"40 00 2e 00 00 00 00 00", "´"},
+    {"08 00 13 00 00 00 00 00", "[windows]+P"}};
 
 std::map<std::string, std::string> letterToByte = {
     {"a", "00 00 04 00 00 00 00 00"},
@@ -201,7 +201,7 @@ std::map<std::string, std::string> letterToByte = {
     {"&", "02 00 23 00 00 00 00 00"},
     {"/", "02 00 24 00 00 00 00 00"},
     {"(", "02 00 25 00 00 00 00 00"},
-     {")", "02 00 26 00 00 00 00 00"},
+    {")", "02 00 26 00 00 00 00 00"},
     {"=", "02 00 27 00 00 00 00 00"},
     {"?", "02 00 2d 00 00 00 00 00"},
     {"`", "02 00 2e 00 00 00 00 00"},
@@ -234,26 +234,31 @@ std::map<std::string, std::string> letterToByte = {
     {"[", "40 00 25 00 00 00 00 00"},
     {"]", "40 00 26 00 00 00 00 00"},
     {"}", "40 00 27 00 00 00 00 00"},
-    {"´", "40 00 2e 00 00 00 00 00"}
-};
+    {"´", "40 00 2e 00 00 00 00 00"}};
 
-std::vector<std::string> command_list = {"[windows]", "[esc]", "[win]", "[tab]", "[win+x]", "[left]", "[enter]", "[alt+f4]", "[lock]", "[down]", "[new desktop]", "[close current desktop]"};
+std::vector<std::string> command_list = {
+    "[windows]", "[esc]",  "[win]",         "[tab]",
+    "[win+x]",   "[left]", "[enter]",       "[alt+f4]",
+    "[lock]",    "[down]", "[new desktop]", "[close current desktop]"};
 
-std::string getAsciiLetter(const std::string& bytePattern) {
-	// Check if the byte pattern is in the dictionary
-	auto it = byteToLetter.find(bytePattern);
-	if (it != byteToLetter.end()) {
-		//char letter = it->second;
-		std::string letter = it->second;
-		printf(" => ASCII: %s\n", letter.c_str());
-		return letter;
-	} else {return "";}
+std::string getAsciiLetter(const std::string &bytePattern) {
+  // Check if the byte pattern is in the dictionary
+  auto it = byteToLetter.find(bytePattern);
+  if (it != byteToLetter.end()) {
+    // char letter = it->second;
+    std::string letter = it->second;
+    printf(" => ASCII: %s\n", letter.c_str());
+    return letter;
+  } else {
+    return "";
+  }
 
-    //auto it = byteToLetter.find(bytePattern);
-    //return (it != byteToLetter.end()) ? it->second : "";  // Return space if not found
+  // auto it = byteToLetter.find(bytePattern);
+  // return (it != byteToLetter.end()) ? it->second : "";  // Return space if
+  // not found
 }
 
-//std::vector<std::string> stringToBytePattern(const std::string& input) {
+// std::vector<std::string> stringToBytePattern(const std::string& input) {
 //	std::vector<std::string> bytePattern;
 //	for (char ch : input) {
 //		std::string key(1, ch);
@@ -263,55 +268,52 @@ std::string getAsciiLetter(const std::string& bytePattern) {
 //		}
 //	}
 //	return bytePattern;
-//}
+// }
 
 // Function to convert a string of letters to a byte pattern
-std::vector<unsigned int> stringToBytePattern(const std::string& input) {
-    std::vector<unsigned int> bytePattern;
-    for (const auto& str : command_list) {
-        // std::cout << "String in list: " << str << std::endl;
-        // std::cout << "Input: " << input << std::endl;
-        if (input == str) {
-            commandInList = true;
-            break;
-        }
+std::vector<unsigned int> stringToBytePattern(const std::string &input) {
+  std::vector<unsigned int> bytePattern;
+  for (const auto &str : command_list) {
+    // std::cout << "String in list: " << str << std::endl;
+    // std::cout << "Input: " << input << std::endl;
+    if (input == str) {
+      commandInList = true;
+      break;
     }
-    
-    if (commandInList) {
-        //std::cout << "Input: " << input << std::endl;
-        auto it = letterToByte.find(std::string(input));
-            if (it != letterToByte.end()) {
-                std::istringstream iss(it->second);
-                unsigned int byte;
-                while (iss >> std::hex >> byte) {
-                    bytePattern.push_back(byte);
-                }
-            }
-        commandInList = false;
-    } else {
-        for (char c : input) {
-            printf("%c\n", c);
-            // Look up the corresponding byte pattern in the mapping
-            auto it = letterToByte.find(std::string(1, c));
-            if (it != letterToByte.end()) {
-                std::istringstream iss(it->second);
-                unsigned int byte;
-                while (iss >> std::hex >> byte) {
-                    bytePattern.push_back(byte);
-                }
-            }
-            
-        }
-        std::vector<unsigned int> valuesToAdd = {0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00};
+  }
 
-        // Add [enter] to the end of bytePattern
-        for (unsigned int value : valuesToAdd) {
-            bytePattern.push_back(value);
-        }
+  if (commandInList) {
+    // std::cout << "Input: " << input << std::endl;
+    auto it = letterToByte.find(std::string(input));
+    if (it != letterToByte.end()) {
+      std::istringstream iss(it->second);
+      unsigned int byte;
+      while (iss >> std::hex >> byte) {
+        bytePattern.push_back(byte);
+      }
     }
-    
-    
-    return bytePattern;
+    commandInList = false;
+  } else {
+    for (char c : input) {
+      printf("%c\n", c);
+      // Look up the corresponding byte pattern in the mapping
+      auto it = letterToByte.find(std::string(1, c));
+      if (it != letterToByte.end()) {
+        std::istringstream iss(it->second);
+        unsigned int byte;
+        while (iss >> std::hex >> byte) {
+          bytePattern.push_back(byte);
+        }
+      }
+    }
+    std::vector<unsigned int> valuesToAdd = {0x00, 0x00, 0x28, 0x00,
+                                             0x00, 0x00, 0x00, 0x00};
+
+    // Add [enter] to the end of bytePattern
+    for (unsigned int value : valuesToAdd) {
+      bytePattern.push_back(value);
+    }
+  }
+
+  return bytePattern;
 }
-
-
