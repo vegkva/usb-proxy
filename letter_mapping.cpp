@@ -105,6 +105,7 @@ std::map<std::string, std::string> byteToLetter = {
     {"02 00 37 00 00 00 00 00", ":"},
     {"02 00 36 00 00 00 00 00", ";"},
     {"08 00 00 00 00 00 00 00", "[windows]"},
+    {"08 00 15 00 00 00 00 00", "[run]"},
     {"08 00 0f 00 00 00 00 00", "[lock]"},
     {"00 00 29 00 00 00 00 00", "[esc]"},
     {"40 00 1f 00 00 00 00 00", "@"},
@@ -217,7 +218,7 @@ std::map<std::string, std::string> letterToByte = {
     {"[windows]", "08 00 00 00 00 00 00 00"},
     {"[esc]", "00 00 29 00 00 00 00 00"},
     {"[win]", "08 00 15 00 00 00 00 00"},
-    {"[win]", "08 00 15 00 00 00 00 00"},
+    {"[run]", "08 00 15 00 00 00 00 00"},
     {"[win+x]", "08 00 1b 00 00 00 00 00"},
     {"[tab]", "00 00 2b 00 00 00 00 00"},
     {"[left]", "00 00 50 00 00 00 00 00"},
@@ -237,7 +238,7 @@ std::map<std::string, std::string> letterToByte = {
     {"´", "40 00 2e 00 00 00 00 00"}};
 
 std::vector<std::string> command_list = {
-    "[windows]", "[esc]",  "[win]",         "[tab]",
+    "[windows]", "[esc]",  "[run]",         "[tab]",
     "[win+x]",   "[left]", "[enter]",       "[alt+f4]",
     "[lock]",    "[down]", "[new desktop]", "[close current desktop]"};
 
