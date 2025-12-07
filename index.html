@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>USB Proxy Control</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #222;
+        color: #eee;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .keyboard, .words {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    button {
+        background: #444;
+        color: white;
+        padding: 12px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    button:hover {
+        background: #666;
+    }
+
+    .wide {
+        padding: 12px 28px;
+        font-size: 20px;
+    }
+
+    input {
+        margin-top: 20px;
+        padding: 10px;
+        width: 300px;
+        font-size: 18px;
+        border-radius: 6px;
+        border: none;
+    }
+</style>
+</head>
+<body>
+
+<h1>USB Input Web UI</h1>
+
+<input id="textInput" placeholder="Type here…" />
+
+<div>
+    <button class="wide" onclick="sendKey(document.getElementById('textInput').value)">
+        Send Text
+    </button>
+</div>
+
+<h2>Letter Keys</h2>
+<div class="keyboard">
+    <script>
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        letters.forEach(letter => {
+            document.write(`<button onclick="sendKey('${letter}')">${letter}</button>`);
+        });
+    </script>
+</div>
+
+<h2>Word Buttons</h2>
+<div class="words">
+    <button onclick="sendKey('[windows]')">Windows</button>
+    <button onclick="sendKey('[run]')">Run</button>
+    <button onclick="sendKey('powershell.exe')">"powershell.exe"</button>
+    <button onclick="sendKey('ctrl_alt_del')">Ctrl+Alt+Del</button>
+    <button onclick="sendKey('copy')">Copy</button>
+    <button onclick="sendKey('paste')">Paste</button>
+    <button onclick="sendKey('[enter]')">Enter</button>
+    <button onclick="sendKey('escape')">Esc</button>
+    <button onclick="sendKey('[tab]')">Tab</button>
+</div>
+
+<script>
+function sendKey(key) {
+    console.log("sending key: ",key);
+    fetch("http://localhost:8080/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key })
+    }).then(r => {
+        console.log("Sent:", key);
+    }).catch(err => console.error(err));
+}
+</script>
+
+</body>
+</html>
