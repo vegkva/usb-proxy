@@ -227,7 +227,14 @@ std::map<std::string, std::string> letterToByte = {
     {"[alt+f4]", "04 00 3d 00 00 00 00 00"},
     {"[lock]", "08 00 0f 00 00 00 00 00"},
     {"[new desktop]", "09 00 07 00 00 00 00 00"},
+    {"[win+right]", "08 00 50 00 00 00 00 00"},
     {"[close current desktop]", "09 00 3d 00 00 00 00 00"},
+    {"[taskbar1]", "0a 00 1e 00 00 00 00 00"},
+    {"[taskbar2]", "0a 00 1f 00 00 00 00 00"},
+    {"[taskbar3]", "0a 00 20 00 00 00 00 00"},
+    {"[taskbar4]", "0a 00 21 00 00 00 00 00"},
+    {"[taskbar5]", "0a 00 22 00 00 00 00 00"},
+    {"[taskbar6]", "0a 00 23 00 00 00 00 00"},
     {"@", "40 00 1f 00 00 00 00 00"},
     {"£", "40 00 20 00 00 00 00 00"},
     {"$", "40 00 21 00 00 00 00 00"},
@@ -240,7 +247,10 @@ std::map<std::string, std::string> letterToByte = {
 std::vector<std::string> command_list = {
     "[windows]", "[esc]",  "[run]",         "[tab]",
     "[win+x]",   "[left]", "[enter]",       "[alt+f4]",
-    "[lock]",    "[down]", "[new desktop]", "[close current desktop]"};
+    "[lock]",    "[down]", "[new desktop]", "[close current desktop]",
+    "[win+right]", "[taskbar1]", "[taskbar2]", "[taskbar3]",
+    "[taskbar4]", "[taskbar5]", "[taskbar6]"
+};
 
 std::string getAsciiLetter(const std::string &bytePattern) {
   // Check if the byte pattern is in the dictionary

