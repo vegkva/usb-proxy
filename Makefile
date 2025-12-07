@@ -1,4 +1,5 @@
 LDFLAG=-lusb-1.0 -pthread -ljsoncpp
+CFLAGS += -I/usr/include/crow
 
 ifndef CFLAGS
 	ifeq ($(TARGET),Debug)
@@ -9,7 +10,7 @@ ifndef CFLAGS
 endif
 
 # List of source files
-SRC_FILES = usb-proxy.cpp host-raw-gadget.cpp device-libusb.cpp proxy.cpp misc.cpp letter_mapping.cpp
+SRC_FILES = usb-proxy.cpp host-raw-gadget.cpp device-libusb.cpp proxy.cpp misc.cpp letter_mapping.cpp WebServer.cpp
 
 # Corresponding object files
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
